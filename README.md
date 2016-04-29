@@ -166,3 +166,88 @@
 	+ `NewsItem` * n
 
 
+## 编写大致的模板
+
+上一节我们知道了整个页面的组件结构, 在这一节我们根据这些结果编写出一个大致的模板.
+先在 `app` 目录下为每个组件建立文件, `NewsList.js`, `NewsHeader.js` 和 `NewsItem.js`.
+
+```
+cd app
+touch NewsList.js NewsHeader.js NewsItem.js
+```
+编辑 `NewsHeader.js`
+```
+// NewsHeader.js
+
+import React from 'react';
+
+export default class NewsHeader extends React.Component {
+  render() {
+    return (
+        <div className="newsHeader">
+          I am NewsHeader.
+        </div>
+        );
+  }
+}
+```
+
+`NewsHeader` 组件就先这样, 具体的实现现在先不去考虑, 记得我们现在只是编写一个大致的结构.
+
+同样的, 编辑 `NewsItem.js`
+
+```
+// NewsItem.js
+
+import React from 'react';
+
+export default class NewsItem extends React.Component {
+  render() {
+    return (
+        <div className="newsItem">
+          I am NewsItem.
+        </div>
+        );
+  }
+}
+```
+
+接着是 `NewsList.js`, 因为 `NewsList` 是前两个组件的容器, 所以我们需要引入它们
+```
+// NewsList.js
+
+import React from 'react';
+import NewsHeader from './NewsHeader.js';
+import NewsItem from './NewsItem.js';
+
+export default class NewsList extends React.Component {
+  render() {
+    return (
+        <div className="newsList">
+          <NewsHeader />
+          <NewsItem />
+        </div>
+        );
+  }
+}
+
+```
+
+最后修改入口文件 `app.js`
+```
+// app.js
+
+import React from 'react'
+import { render } from 'react-dom';
+import $ from 'jquery';
+import NewsList from './NewsList.js';
+
+render(<NewsList />, $('#content')[0]);
+```
+
+这时访问 <http://localhost:8080/build/index.html>
+
+  ![]()
+
+接下来让我们逐步完善各个组件.
+
