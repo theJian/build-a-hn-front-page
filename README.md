@@ -1,6 +1,6 @@
 # Learn React & Webpack by building the Hacker News front page
 
-> 这篇教程仍然处于修订阶段, 可能会存在错误疏漏与不合理之处. 欢迎你参与修改和撰写.  
+> 这篇教程仍然处于修订阶段, 可能会存在错误疏漏与不合理之处. 欢迎你参与修改和撰写.
 
 这是一篇给初学者的教程, 在这篇教程中我们将通过构建一个 [Hacker News](https://news.ycombinator.com/) 的前端页面来学习 [React](https://facebook.github.io/react/) 与 [Webpack](https://webpack.github.io/). 它不会覆盖所有的技术细节, 因此它不会使一个初学者变成大师, 但希望能给初学者一个大致印象.
 
@@ -76,7 +76,7 @@
   npm install react react-dom --save
   ```
 
-  安装 jQuery:
+  为了简化 AJAX 请求代码, 这里引入 jQuery:
   ```
   npm install jquery --save
   ```
@@ -142,3 +142,27 @@
   ...
   ```
   再次打包运行, 访问 <http://localhost:8080/build/index.html> 如果可以看到打印出了 Hello World 那么开发环境就算搭建完成了.
+
+## 在开始写第一个组件之前 ...
+
+在开始写第一个组件之前, 让我们分析一下到底我们需要哪些组件.
+  
+  ![]()
+  
+上图是的最终效果的部分截图, 我们将其分为几个组件, 用不同颜色的线框标出
+  
+  ![]()
+
+我们可以看出其中包含以下几个组件.
+  
+  - `NewsList` (蓝色): 所有组件的容器.
+  - `NewsHeader` (绿色): Logo, 标题, 导航栏等.
+  - `NewsItem` (红色): 对应每条资讯.
+
+把这些组成为一棵组件树.
+  
+  - `NewsList`
+    + `NewsHeader`
+	+ `NewsItem` * n
+
+
