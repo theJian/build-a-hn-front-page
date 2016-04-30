@@ -147,11 +147,11 @@
 
 在开始写第一个组件之前, 让我们分析一下到底我们需要哪些组件.
   
-  ![]()
+  ![overview.png](https://raw.githubusercontent.com/theJian/build-a-hn-front-page/master/assets/overview.png)
   
 上图是的最终效果的部分截图, 我们将其分为几个组件, 用不同颜色的线框标出
   
-  ![]()
+  ![mock.png](https://raw.githubusercontent.com/theJian/build-a-hn-front-page/master/assets/mock.png)
 
 我们可以看出其中包含以下几个组件.
   
@@ -245,13 +245,15 @@ import NewsList from './NewsList.js';
 render(<NewsList />, $('#content')[0]);
 ```
 
-这时访问 <http://localhost:8080/build/index.html>
+这时访问 <http://localhost:8080/build/index.html> 可以看到下图的效果
 
-  ![]()
+  ![template.png](https://raw.githubusercontent.com/theJian/build-a-hn-front-page/master/assets/template.png)
 
 接下来让我们逐步完善各个组件.
 
 ## `NewsHeader`
+
+![newsheader](https://raw.githubusercontent.com/theJian/build-a-hn-front-page/master/assets/newsheader.png)
 
 整个 `NewsHeader` 包含了三个部分, 左边的Logo和标题, 中间的导航栏和右边的登录入口.
 
@@ -259,7 +261,7 @@ render(<NewsList />, $('#content')[0]);
 
 1. Logo 和标题
 
-   先下载 Logo
+   先下载 [Logo](https://raw.githubusercontent.com/theJian/build-a-hn-front-page/master/assets/y18.gif)
 
    在 `NewsHeader` 组件里新增一个方法 `getLogo`, 就像下面这样.
 
@@ -521,7 +523,7 @@ render(<NewsList />, $('#content')[0]);
 
 ## `NewsItem`
 
-!()[]
+![newsItem.png](https://raw.githubusercontent.com/theJian/build-a-hn-front-page/master/assets/newsItem.png)
 
 如图, 每条资讯对应着这样一个 `NewsItem`, 本节我们将编写 `NewsItem` 组件.
 
@@ -676,7 +678,7 @@ render(<NewsList />, $('#content')[0]);
    
    我们现在加上其余部分, 你已经看过了前两节, 这节应该是没有什么难度的, 我们快速带过.
    
-   下载 grayarrow.gif, 在 `NewsItem.js` 中引入
+   下载 [grayarrow.gif](https://raw.githubusercontent.com/theJian/build-a-hn-front-page/master/assets/grayarrow.gif), 在 `NewsItem.js` 中引入
    ```
    import ImageGrayArrow from './grayarrow.gif';
    ```
