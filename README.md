@@ -800,3 +800,38 @@ render(<NewsList />, $('#content')[0]);
 
 目前的代码是没法运行的, 我们还没有取得数据传入给 `NewsList`, 这将在下一节完善.
 
+## Hacker News API
+
+本节中我们使用 [Hacker News API](https://github.com/HackerNews/API) 来获取数据, 具体请参考 API 文档.
+
+`app.js`
+
+```
+$.ajax({
+  url: 'https://hacker-news.firebaseio.com/v0/topstories.json',
+  dataType: 'json'
+}).then(function(stories) {
+  var detailDeferreds = (stories.slice(0, 30)).map(function(itemId) {
+    return $.ajax({
+      url: 'https://hacker-news.firebaseio.com/v0/item/' + itemId + '.json',
+      dataType: 'json'
+    });
+  });
+  return $.when.apply($, detailDeferreds);
+}).then(function() {
+  var args = Array.from(arguments);
+  var items = args.map(function(arg) {
+    return arg[0];
+  });
+
+  console.log(items);
+
+  render(<NewsList items={items} />, $('#content')[0]);
+});
+```
+
+`items` 就是处理完后的数据, 一个由资讯数据组成的数组, 我们将它作为属性传入 `NewsList`.
+
+至此, 你已经完成了 Hacker News Front Page, 就像开头所说的, 这篇教程不会使你精通, 但你应该对 ` React / Webpack / 模块化 ` 有了大概的了解.
+
+> 声明: 本篇很大一部分代码来自于 [mking/react-hn](https://github.com/mking/react-hn), 在这里表示谢意. Thanks!
