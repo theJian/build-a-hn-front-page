@@ -762,3 +762,41 @@ render(<NewsList />, $('#content')[0]);
      text-decoration: underline;
    }
    ```
+
+## NewsList
+
+上一节中为了测试 `NewsItem`, 我们定义了一个测试数据 `testData`, `NewsList` 中也只有一个 `NewsItem`, 而真实的情况不会只有一条资讯, 而应该是一组资讯, 每一条对应有一个 `NewsItem`, 本节中我们来实现这个功能.
+
+首先我们确定传入的数据是一个数组, 其中每一个元素都是一条资讯, 至于这个数据由哪里传入, 怎么生成我们先不关心, 但我们可以用 `this.props.items` 获取到. `NewsList` 对于其中的每一个元素都生成一个 `NewsItem`. 
+
+下面是修改完的 `render`
+```
+  render() {
+    return (
+        <div className="newsList">
+          <NewsHeader />
+          <div className="newsList-newsItem">
+            {
+              (this.props.items).map(function(item, index) {
+                return (
+                    <NewsItem key={item.id} item={item} rank={index+1} />
+                    );
+              })
+            }
+          </div>
+        </div>
+        );
+  }
+```
+新建样式 `NewsList.css`
+```
+.newsList {
+  background: #f6f6ef;
+  margin-left: auto;
+  margin-right: auto;
+  width: 85%;
+}
+```
+
+目前的代码是没法运行的, 我们还没有取得数据传入给 `NewsList`, 这将在下一节完善.
+
