@@ -403,6 +403,16 @@ render(<NewsList />, $('#content')[0]);
    ```
    import './NewsHeader.css';
    ```
+   再建立一个全局的 css 文件 `app.js`
+   ```
+   body {
+     font-family: Verdana, sans-serif;
+   }
+   ```
+   然后在 `app.js` 中引入
+   ```
+   import './app.js'
+   ```
    打包运行看看吧.
 2. 导航栏
    接下来是导航栏, 也就是中间那部分.
@@ -508,3 +518,247 @@ render(<NewsList />, $('#content')[0]);
    ```
 
 至此整个 `NewsHeader` 就完成了, 你应该能看到如本节初所展示的效果.
+
+## `NewsItem`
+
+!()[]
+
+如图, 每条资讯对应着这样一个 `NewsItem`, 本节我们将编写 `NewsItem` 组件.
+
+可以看到, 一个 `NewsItem` 包含了资讯的标题, 来源地址, 什么时候发布的以及评论数等等. 它依赖于传入的数据, 那么怎么传入数据呢?
+
+对于父子组件间的通信, 可以使用属性传递. 子组件可以使用 `this.props` 访问到父组件传入的属性数据.
+
+回到 `NewsList` 组件, 它作为 `NewsItem` 的父组件可以使用如下方式传入数据.
+
+```
+<NewsItem item={data} />
+```
+
+`NewsItem` 中可以使用 `this.props.item` 访问 item 属性.
+
+像这样我们只需要将资讯数据作为属性传入, 在 `NewsItem` 中就能获取到了. 让我们开始做吧!
+
+1. `NewsItem` 标题
+   
+   先来简单点的, 第一步我们只获取并显示标题.
+
+   修改 `NewsList.js`
+   ```
+   render() {
+     var testData = {
+       "by" : "bane",
+       "descendants" : 49,
+       "id" : 11600137,
+       "kids" : [ 11600476, 11600473, 11600501, 11600463, 11600452, 11600528, 11600421, 11600577, 11600483 ],
+       "score" : 56,
+       "time" : 1461985332,
+       "title" : "Yahoo's Marissa Mayer could get $55M in severance pay",
+       "type" : "story",
+       "url" : "http://www.latimes.com/business/technology/la-fi-0429-tn-marissa-mayer-severance-20160429-story.html"
+     };
+
+     return (
+         <div className="newsList">
+           <NewsHeader />
+           <NewsItem item={testData} rank={1} />
+         </div>
+         );
+   }
+   ```
+   这里我们声明一个 testData 作为测试数据传入 NewsItem.
+   
+   修改 `NewsItem.js`
+   ```
+   render: function () {
+     return (
+       <div className="newsItem">
+         <a className="newsItem-titleLink" href={this.props.item.url}>{this.props.item.title}</a>
+       </div>
+     );
+   }
+   ```
+   在这里使用 `this.props.item` 访问 item 属性.
+
+   建立 `NewsItem.css`
+   ```
+   .newsItem {
+     color: #828282;
+     margin-top: 5px;
+     align-items: baseline;
+     display: flex;  
+   }
+
+   .newsItem-titleLink {
+     color: black;
+     font-size: 10pt;
+     text-decoration: none;
+   }
+   ```
+   在 `NewsItem.js` 中引入
+   ```
+   import './NewsItem.css';
+   ```
+   运行看看效果, 显示的标题应该和传入的测试数据中的一样.
+
+2. `NewsItem` 来源地址
+   
+   我们现在添加来源地址到标题的末尾.
+   先在 `NewsItem.js` 中引入 `url` 模块
+   ```
+   import URL from 'url';
+   ```
+
+   然后增加一个 `getDomain` 方法.
+   ```
+   getDomain() {
+     return URL.parse(this.props.item.url).hostname;
+   }
+   ```
+
+   然后再增加一个 `getTitle` 方法, 这个方法会返回一个包含了标题(我们上一节做的事)和地址的组件.
+   ```
+   getTitle() {
+     return (
+         <div className="newsItem-title">
+           <a className="newsItem-titleLink" href={this.props.item.url}>{this.props.item.title}</a>
+           <span className="newsItem-domain"><a href={'https://news.ycombinator.com/from?site=' + this.getDomain()}>({this.getDomain()})</a></span>
+         </div>
+         );
+   }
+   ```
+
+   修改 `render`
+
+   ```
+   render() {
+     return (
+         <div className="newsItem">
+           <div className="newsItem-itemText">
+             {this.getTitle()}
+           </div>
+         </div>
+         );
+   }
+   ```
+   增加样式
+   ```
+   .newsItem-itemText {
+     flex-grow: 1;
+   }
+
+   .newsItem-domain {
+     font-size: 8pt;
+     margin-left: 5px;
+   }
+
+   .newsItem-domain > a {
+     color: #828282;
+     text-decoration: none;
+   }
+   ```
+   好了, 看起来不错, 但是有个问题, 这个项目最终需要从 Hacker News 的 API 取得资讯数据, 而其中有些是没有 `url` 属性的, 看看我们的 `getTitle()` 方法, 我们似乎忽略了这个特例, 让我们做些修改.
+
+   ```
+   getTitle() {
+     return (
+         <div className="newsItem-title">
+           <a className="newsItem-titleLink" href={this.props.item.url ? this.props.item.url : 'https://news.ycombinator.com/item?id=' + this.props.item.id}>{this.props.item.title}</a>
+           {
+             this.props.item.url && <span className="newsItem-domain"><a href={'https://news.ycombinator.com/from?site=' + this.getDomain()}>({this.getDomain()})</a></span>
+           }
+         </div>
+         );
+   }
+   ```
+   试着去掉 `testData` 的 `url`属性, 看看是不是一切正常.
+3. 'NewsItem` 其余部分
+   
+   我们现在加上其余部分, 你已经看过了前两节, 这节应该是没有什么难度的, 我们快速带过.
+   
+   下载 grayarrow.gif, 在 `NewsItem.js` 中引入
+   ```
+   import ImageGrayArrow from './grayarrow.gif';
+   ```
+
+   修改 `NewsItem.js`
+   ```
+   getCommentLink() { // 评论链接
+     var commentText = 'discuss';
+     if(this.props.item.kids && this.props.item.kids.length) {
+       commentText = this.props.item.kids.length + ' comment';
+     }
+
+     return (
+         <a href={'https://news.ycombinator.com/item?id=' + this.props.item.id}>{commentText}</a>
+         );
+   }
+
+   getSubtext() { // 分数, 作者, 时间, 评论数
+     return (
+         <div className="newsItem-subtext">
+           {this.props.item.score} points by <a href={'https://news.ycombinator.com/user?id=' + this.props.item.by}>{this.props.item.by}</a> {Moment.utc(this.props.item.time * 1000).fromNow()} | {this.getCommentLink()}
+         </div>
+         );
+   }
+
+   getRank() { // 序号
+     return (
+         <div className="newsItem-rank">
+           {this.props.rank}.
+         </div>
+         );
+   }
+
+   getVote() { // 投票
+     return (
+         <div className="newsItem-vote">
+           <a href={'https://news.ycombinator.com/vote?for='+ this.props.item.id + '&dir=up&goto=news'}>
+             <img src={ImageGrayArrow} width="10" />
+           </a>
+         </div>
+         );
+   }
+
+   render() {
+     return (
+         <div className="newsItem">
+           {this.getRank()}
+           {this.getVote()}
+           <div className="newsItem-itemText">
+             {this.getTitle()}
+             {this.getSubtext()}
+           </div>
+         </div>
+         );
+   }
+   ```
+   这里计算时间间距我们使用了 [Moment](http://momentjs.com/), 如果你要使用你需要安装并引入它, 或者使用你喜欢的实现方法.
+
+   `NewItem.css`
+
+   ```
+   .newsItem-rank {
+     flex-basis: 25px;
+     font-size: 10pt;
+     text-align: right;
+   }
+
+   .newsItem-vote {
+     flex-basis: 15px;
+     text-align: center;
+   }
+
+   .newsItem-subtext {
+     font-size: 7pt;
+   }
+
+   .newsItem-subtext > a {
+     color: #828282;
+     text-decoration: none;
+   }
+
+   .newsItem-subtext > a:hover {
+     text-decoration: underline;
+   }
+   ```
