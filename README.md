@@ -836,4 +836,14 @@ $.ajax({
 
 至此, 你已经完成了 Hacker News Front Page, 就像开头所说的, 这篇教程不会使你精通, 但你应该对 ` React / Webpack / 模块化 ` 有了大概的了解.
 
+## 下一步
+
+现在你已经对 React&Webpack 有了基本的了解了, 下面有一些阅读资源可以帮助你进一步深入.
+
+- [Beginner's guide to Webpack](https://medium.com/@dabit3/beginner-s-guide-to-webpack-b1f1a3638460#.tvpf655qq)
+- [Webpack How To](https://github.com/petehunt/webpack-howto)
+- [Webpack doc](http://webpack.github.io/docs/)
+- [React doc](https://facebook.github.io/react/docs/getting-started.html) [(中文版)](http://reactjs.cn/react/docs/getting-started.html)
+- [survivejs](http://survivejs.com/)
+
 > 声明: 本篇很大一部分代码来自于 [mking/react-hn](https://github.com/mking/react-hn), 在这里表示谢意. Thanks!
