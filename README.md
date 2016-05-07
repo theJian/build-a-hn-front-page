@@ -405,7 +405,7 @@ render(<NewsList />, $('#content')[0]);
    ```
    import './NewsHeader.css';
    ```
-   再建立一个全局的 css 文件 `app.js`
+   再建立一个全局的 css 文件 `app.css`
    ```
    body {
      font-family: Verdana, sans-serif;
@@ -413,7 +413,7 @@ render(<NewsList />, $('#content')[0]);
    ```
    然后在 `app.js` 中引入
    ```
-   import './app.js'
+   import './app.css'
    ```
    打包运行看看吧.
 2. 导航栏
