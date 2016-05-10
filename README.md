@@ -118,7 +118,8 @@
   打开 `app.js`, 修改内容为:
   ```
   // app.js
-
+  
+  import $ from 'jquery';
   import React from 'react';
   import { render } from 'react-dom';
 
