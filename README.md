@@ -810,27 +810,18 @@ render(<NewsList />, $('#content')[0]);
 `app.js`
 
 ```
-$.ajax({
-  url: 'https://hacker-news.firebaseio.com/v0/topstories.json',
-  dataType: 'json'
-}).then(function(stories) {
-  var detailDeferreds = (stories.slice(0, 30)).map(function(itemId) {
-    return $.ajax({
-      url: 'https://hacker-news.firebaseio.com/v0/item/' + itemId + '.json',
-      dataType: 'json'
-    });
-  });
-  return $.when.apply($, detailDeferreds);
-}).then(function() {
-  var args = Array.from(arguments);
-  var items = args.map(function(arg) {
-    return arg[0];
-  });
+function get(url) {
+  return Promise.resolve($.ajax(url));
+}
 
-  console.log(items);
-
+get('https://hacker-news.firebaseio.com/v0/topstories.json').then( function(stories) {
+  return Promise.all(stories.slice(0, 30).map(itemId => get('https://hacker-news.firebaseio.com/v0/item/' + itemId + '.json')));
+}).then(function(items) {
   render(<NewsList items={items} />, $('#content')[0]);
+}).catch(function(err) {
+  console.log('error occur', err);
 });
+
 ```
 
 `items` 就是处理完后的数据, 一个由资讯数据组成的数组, 我们将它作为属性传入 `NewsList`.
