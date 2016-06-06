@@ -1,7 +1,5 @@
 # Learn React & Webpack by building the Hacker News front page
 
-> 这篇教程仍然处于修订阶段, 可能会存在错误疏漏与不合理之处. 欢迎你参与修改和撰写.
-
 这是一篇给初学者的教程, 在这篇教程中我们将通过构建一个 [Hacker News](https://news.ycombinator.com/) 的前端页面来学习 [React](https://facebook.github.io/react/) 与 [Webpack](https://webpack.github.io/). 它不会覆盖所有的技术细节, 因此它不会使一个初学者变成大师, 但希望能给初学者一个大致印象.
 
 ## 准备工作
