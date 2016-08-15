@@ -7,14 +7,13 @@
 - 安装 webpack
 
   在此之前你应该已经安装了 [node.js](https://nodejs.org/).
-  ```
+  ```sh
   npm install webpack -g
-
   ```
   参数`-g`表示我们将全局(global)安装 webpack, 这样你就能使用 `webpack` 命令了.
 
   webpack 也有一个 web 服务器 webpack-dev-server, 我们也安装上
-  ```
+  ```sh
   npm install webpack-dev-server -g
   ```
 
@@ -23,7 +22,7 @@
   webpack 使用一个名为 `webpack.config.js` 的配置文件, 现在在你的项目根目录下创建该文件.
   我们假设我们的工程有一个入口文件 `app.js`, 该文件位于 `app/` 目录下, 并且希望 webpack 将它打包输出为 `build/` 目录下的 `bundle.js` 文件. `webpack.config.js` 配置如下:
 
-  ```
+  ```js
   var path = require('path');
 
   module.exports = {
@@ -35,11 +34,11 @@
   }
   ```
   现在让我们测试一下, 创建 `app/app.js` 文件, 填入一下内容:
-  ```
+  ```js
   document.write('It works');
   ```
   创建 `build/index.html`, 填入以下内容:
-  ```
+  ```html
   <!DOCTYPE html>
   <head>
     <meta charset="UTF-8">
@@ -58,7 +57,7 @@
 - 配置 `package.json`
 
   在项目根目录下运行 `npm init` 会生成 `package.json`, 修改 `scripts` 的键值如下:
-  ```
+  ```json
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack"
@@ -70,22 +69,22 @@
 - 安装依赖
 
   安装 React:
-  ```
+  ```sh
   npm install react react-dom --save
   ```
 
   为了简化 AJAX 请求代码, 这里引入 jQuery:
-  ```
+  ```sh
   npm install jquery --save
   ```
 
   安装 [Babel](https://babeljs.io/) 的 loader 以支持 ES6 语法:
-  ```
+  ```sh
   npm install babel-core babel-loader babel-preset-es2015 babel-preset-react --save-dev
   ```
 
   然后配置 `webpack.config.js` 来使用安装的 loader.
-  ```
+  ```js
   // webpack.config.js
 
   var path = require('path');
@@ -114,7 +113,7 @@
   接下来测试一下开发环境是否搭建完成.
 
   打开 `app.js`, 修改内容为:
-  ```
+  ```js
   // app.js
   
   import $ from 'jquery';
@@ -132,7 +131,7 @@
   render(<HelloWorld />, $('#content')[0]);
   ```
   这里组件 `HelloWorld` 被装载到 id 为 content 的 DOM 元素, 所以相应的需要修改 `index.html` .
-  ```
+  ```html
   ...
   <body>
     <div id="content"></div>
@@ -170,12 +169,12 @@
 上一节我们知道了整个页面的组件结构, 在这一节我们根据这些结果编写出一个大致的模板.
 先在 `app` 目录下为每个组件建立文件, `NewsList.js`, `NewsHeader.js` 和 `NewsItem.js`.
 
-```
+```sh
 cd app
 touch NewsList.js NewsHeader.js NewsItem.js
 ```
 编辑 `NewsHeader.js`
-```
+```js
 // NewsHeader.js
 
 import React from 'react';
@@ -195,7 +194,7 @@ export default class NewsHeader extends React.Component {
 
 同样的, 编辑 `NewsItem.js`
 
-```
+```js
 // NewsItem.js
 
 import React from 'react';
@@ -212,7 +211,7 @@ export default class NewsItem extends React.Component {
 ```
 
 接着是 `NewsList.js`, 因为 `NewsList` 是前两个组件的容器, 所以我们需要引入它们
-```
+```js
 // NewsList.js
 
 import React from 'react';
@@ -233,7 +232,7 @@ export default class NewsList extends React.Component {
 ```
 
 最后修改入口文件 `app.js`
-```
+```js
 // app.js
 
 import React from 'react'
@@ -264,7 +263,7 @@ render(<NewsList />, $('#content')[0]);
 
    在 `NewsHeader` 组件里新增一个方法 `getLogo`, 就像下面这样.
 
-   ```
+   ```js
    // NewsHeader.js
 
    // ...
@@ -278,7 +277,7 @@ render(<NewsList />, $('#content')[0]);
    }
    ```
    这个方法返回一个包含 Logo 的子组件.
-   ```
+   ```js
    getLogo() {
      return (
         <div className="newsHeader-logo">
@@ -293,12 +292,12 @@ render(<NewsList />, $('#content')[0]);
    
    安装对应的 loader:
 
-   ```
+   ```sh
    npm install url-loader file-loader --save-dev
    ```
 
    配置 `webpack.config.js`
-   ```
+   ```js
    //...
 
      loaders: [
@@ -321,17 +320,17 @@ render(<NewsList />, $('#content')[0]);
    然后回到 `NewsHeader.js`
 
    这时候你就可以使用 `import` 引入图片了.
-   ```
+   ```js
    import imageLogo from './y18.gif';
    ```
    然后像这样使用.
-   ```
+   ```js
    <img src={imageLogo} />
    ```
    注意这里用`{}`包起来, 这样其中的内容会作为表达式.
 
    `getLogo` 方法完成了, 再写一个 `getTitle` 方法.
-   ```
+   ```js
    getTitle() {
      return (
          <div className="newsHeader-title">
@@ -341,7 +340,7 @@ render(<NewsList />, $('#content')[0]);
    }
    ```
    修改 `render` 方法, 引用我们刚刚写好的那两个方法.
-   ```
+   ```js
    render() {
      return (
          <div className="newsHeader">
@@ -358,7 +357,7 @@ render(<NewsList />, $('#content')[0]);
    我们也需要将样式模块化.
 
    安装相应的 loader:
-   ```
+   ```sh
    npm install css-loader style-loader --save-dev
    ```
    `css-loader` 处理 css 文件中的 `url()` 表达式.
@@ -366,7 +365,7 @@ render(<NewsList />, $('#content')[0]);
    `style-loader` 将 css 代码插入页面中的 style 标签中.
 
    在 `webpack.config.js` 中配置新的 loader.
-   ```
+   ```js
    {
      test: /\.css$/,
      loader: 'style!css'
@@ -374,7 +373,7 @@ render(<NewsList />, $('#content')[0]);
    ```
 
    新建一个 css 文件 `NewsHeader.css`
-   ```
+   ```css
    .newsHeader {
      align-items: center;
      background: #ff6600;
@@ -401,17 +400,17 @@ render(<NewsList />, $('#content')[0]);
    }
    ```
    然后在 `NewsHeader.js` 中引入它
-   ```
+   ```js
    import './NewsHeader.css';
    ```
    再建立一个全局的 css 文件 `app.css`
-   ```
+   ```css
    body {
      font-family: Verdana, sans-serif;
    }
    ```
    然后在 `app.js` 中引入
-   ```
+   ```js
    import './app.css'
    ```
    打包运行看看吧.
@@ -419,7 +418,7 @@ render(<NewsList />, $('#content')[0]);
    接下来是导航栏, 也就是中间那部分.
 
    回到 `NewsHeader.js`, 增加一个 `getNav` 方法.
-   ```
+   ```js
    getNav() {
      var navLinks = [
      {
@@ -464,7 +463,7 @@ render(<NewsList />, $('#content')[0]);
    }
    ```
    同样, 记得在 `render` 方法中引用
-   ```
+   ```js
    render() {
      return (
          <div className="newsHeader">
@@ -476,7 +475,7 @@ render(<NewsList />, $('#content')[0]);
    }
    ```
    添加样式.
-   ```
+   ```css
    .newsHeader-nav {
      flex-grow: 1;
      margin-left: 10px;
@@ -489,7 +488,7 @@ render(<NewsList />, $('#content')[0]);
 3. 登录入口
    
    增加一个 `getLogin` 方法.
-   ```
+   ```js
    getLogin() {
      return (
          <div className="newsHeader-login">
@@ -499,7 +498,7 @@ render(<NewsList />, $('#content')[0]);
    }
    ```
    在 `render` 中引用
-   ```
+   ```js
    render() {
      return (
          <div className="newsHeader">
@@ -512,7 +511,7 @@ render(<NewsList />, $('#content')[0]);
    }
    ```
    更新样式
-   ```
+   ```css
    .newsHeader-login {
      margin-right: 5px;
    }
@@ -532,7 +531,7 @@ render(<NewsList />, $('#content')[0]);
 
 回到 `NewsList` 组件, 它作为 `NewsItem` 的父组件可以使用如下方式传入数据.
 
-```
+```js
 <NewsItem item={data} />
 ```
 
@@ -545,7 +544,7 @@ render(<NewsList />, $('#content')[0]);
    先来简单点的, 第一步我们只获取并显示标题.
 
    修改 `NewsList.js`
-   ```
+   ```js
    render() {
      var testData = {
        "by" : "bane",
@@ -570,7 +569,7 @@ render(<NewsList />, $('#content')[0]);
    这里我们声明一个 testData 作为测试数据传入 NewsItem.
    
    修改 `NewsItem.js`
-   ```
+   ```js
    render: function () {
      return (
        <div className="newsItem">
@@ -582,7 +581,7 @@ render(<NewsList />, $('#content')[0]);
    在这里使用 `this.props.item` 访问 item 属性.
 
    建立 `NewsItem.css`
-   ```
+   ```css
    .newsItem {
      color: #828282;
      margin-top: 5px;
@@ -597,7 +596,7 @@ render(<NewsList />, $('#content')[0]);
    }
    ```
    在 `NewsItem.js` 中引入
-   ```
+   ```js
    import './NewsItem.css';
    ```
    运行看看效果, 显示的标题应该和传入的测试数据中的一样.
@@ -606,19 +605,19 @@ render(<NewsList />, $('#content')[0]);
    
    我们现在添加来源地址到标题的末尾.
    先在 `NewsItem.js` 中引入 `url` 模块
-   ```
+   ```js
    import URL from 'url';
    ```
 
    然后增加一个 `getDomain` 方法.
-   ```
+   ```js
    getDomain() {
      return URL.parse(this.props.item.url).hostname;
    }
    ```
 
    然后再增加一个 `getTitle` 方法, 这个方法会返回一个包含了标题(我们上一节做的事)和地址的组件.
-   ```
+   ```js
    getTitle() {
      return (
          <div className="newsItem-title">
@@ -631,7 +630,7 @@ render(<NewsList />, $('#content')[0]);
 
    修改 `render`
 
-   ```
+   ```js
    render() {
      return (
          <div className="newsItem">
@@ -643,7 +642,7 @@ render(<NewsList />, $('#content')[0]);
    }
    ```
    增加样式
-   ```
+   ```css
    .newsItem-itemText {
      flex-grow: 1;
    }
@@ -660,7 +659,7 @@ render(<NewsList />, $('#content')[0]);
    ```
    好了, 看起来不错, 但是有个问题, 这个项目最终需要从 Hacker News 的 API 取得资讯数据, 而其中有些是没有 `url` 属性的, 看看我们的 `getTitle()` 方法, 我们似乎忽略了这个特例, 让我们做些修改.
 
-   ```
+   ```js
    getTitle() {
      return (
          <div className="newsItem-title">
@@ -678,12 +677,12 @@ render(<NewsList />, $('#content')[0]);
    我们现在加上其余部分, 你已经看过了前两节, 这节应该是没有什么难度的, 我们快速带过.
    
    下载 [grayarrow.gif](https://raw.githubusercontent.com/theJian/build-a-hn-front-page/master/assets/grayarrow.gif), 在 `NewsItem.js` 中引入
-   ```
+   ```js
    import ImageGrayArrow from './grayarrow.gif';
    ```
 
    修改 `NewsItem.js`
-   ```
+   ```js
    getCommentLink() { // 评论链接
      var commentText = 'discuss';
      if(this.props.item.kids && this.props.item.kids.length) {
@@ -738,7 +737,7 @@ render(<NewsList />, $('#content')[0]);
 
    `NewItem.css`
 
-   ```
+   ```css
    .newsItem-rank {
      flex-basis: 25px;
      font-size: 10pt;
@@ -771,7 +770,7 @@ render(<NewsList />, $('#content')[0]);
 首先我们确定传入的数据是一个数组, 其中每一个元素都是一条资讯, 至于这个数据由哪里传入, 怎么生成我们先不关心, 但我们可以用 `this.props.items` 获取到. `NewsList` 对于其中的每一个元素都生成一个 `NewsItem`. 
 
 下面是修改完的 `render`
-```
+```js
   render() {
     return (
         <div className="newsList">
@@ -790,7 +789,7 @@ render(<NewsList />, $('#content')[0]);
   }
 ```
 新建样式 `NewsList.css`
-```
+```css
 .newsList {
   background: #f6f6ef;
   margin-left: auto;
@@ -807,7 +806,7 @@ render(<NewsList />, $('#content')[0]);
 
 `app.js`
 
-```
+```js
 function get(url) {
   return Promise.resolve($.ajax(url));
 }
