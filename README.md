@@ -56,7 +56,7 @@
 
 - 配置 `package.json`
 
-  在项目根目录下运行 `npm init` 会生成 `package.json`, 修改 `scripts` 的键值如下:
+  在项目根目录下运行 `npm init -y` 会按照默认设置生成 `package.json`, 修改 `scripts` 的键值如下:
   ```json
   "scripts": {
     "start": "webpack-dev-server",
