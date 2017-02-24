@@ -2,7 +2,7 @@
 
 这是一篇给初学者的教程, 在这篇教程中我们将通过构建一个 [Hacker News](https://news.ycombinator.com/) 的前端页面来学习 [React](https://facebook.github.io/react/) 与 [Webpack](https://webpack.github.io/). 它不会覆盖所有的技术细节, 因此它不会使一个初学者变成大师, 但希望能给初学者一个大致印象.
 
-**注意: 这篇文章已经有部分过时,需要等待更新.文章写成时 webpack 版本使用的是 1.x,现在 webpack 默认安装 2.x.**
+**注意: 这篇文章已经有部分过时,需要等待更新.文章写成时 webpack 版本使用的是 1.x,现在 webpack 默认安装 2.x.按照本篇的配置 webpack 将会报错，教程更新已在计划中**
 
 ## 准备工作
 
